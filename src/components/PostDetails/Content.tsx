@@ -65,8 +65,8 @@ const Content: FunctionComponent<ContentProps> = ({ post }) => {
     return <div>{selftext}</div>;
   }
 
-  if (is_gallery) {
-    const images = Object.values(media_metadata).map((o: any) => o.s.u);
+  if (is_gallery && media_metadata) {
+    const images = Object.values(media_metadata).map((o) => o.s.u);
     return (
       <div>
         {images.map((img) => (
