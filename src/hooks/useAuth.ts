@@ -14,14 +14,13 @@ function useAuth() {
     params.code && setCode(params.code);
   }, []);
 
-
   // Fetch auth from code
   useEffect(() => {
     if (code) {
       authTokenFromCode(code).then((a) => {
         setAuth(a);
         window.history.pushState('', '', '/'); // clear auth code from browser url
-      })
+      });
     }
   }, [code]);
 
@@ -39,6 +38,6 @@ function useAuth() {
   }, [auth]);
 
   return auth;
-};
+}
 
 export default useAuth;

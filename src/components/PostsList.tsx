@@ -1,59 +1,43 @@
 import { FunctionComponent } from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import { formatDistance, fromUnixTime } from 'date-fns';
-import RedditLogo from './RedditLogo';
+import PostHeader from './PostHeader';
 import { Post } from '../api/reddit';
 import { isValidUrl } from '../util';
 
 interface PostsListProps {
   posts: Post[];
+  active?: Post;
   onSelect: (post: Post) => void;
 }
 
-const PostsList: FunctionComponent<PostsListProps> = ({ posts, onSelect }) => (
+const PostsList: FunctionComponent<PostsListProps> = ({
+  posts,
+  active: activePost,
+  onSelect,
+}) => (
   <ListGroup>
     {posts.map((post) => {
       const {
-        data: {
-          title,
-          subreddit,
-          author,
-          score,
-          num_comments: numComments,
-          created_utc: createdAt,
-          preview,
-          thumbnail,
-          name,
-        },
+        data: { score, num_comments: numComments, thumbnail, name },
       } = post;
+
+      const active = activePost?.data.name === name;
 
       return (
         <ListGroupItem
           key={name}
           tag="button"
           action
+          active={active}
           className="mb-3 rounded border"
           onClick={() => onSelect(post)}
         >
-          <RedditLogo width={16} height={16} className="me-2" />
-          <small className="fw-bold">r/{subreddit}</small>
-          <small className="text-muted">
-            {' • '}Posted by
-            {` u/${author} ${formatDistance(
-              fromUnixTime(createdAt),
-              new Date(),
-              { addSuffix: true }
-            )}`}
-          </small>
-          <div className="my-2">{title}</div>
+          <PostHeader active={active} post={post} />
           {thumbnail && isValidUrl(thumbnail) && (
             <img className="mb-2 rounded mx-auto d-block" src={thumbnail} />
           )}
-          {/* {preview?.enabled && (
-            <img className="mb-2 rounded mx-auto d-block img-fluid" src={encodeURI(preview.images[0].source.url)} />
-          )} */}
           <div className="d-flex">
-            <small className="text-muted">
+            <small className={`${active ? '' : 'text-muted'}`}>
               <i className="far fa-comment-alt me-1" />
               {`${numComments} `}Comments
             </small>

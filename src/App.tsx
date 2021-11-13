@@ -7,15 +7,13 @@ import './App.css';
  * App wrapper that provides auth context and renders Login or Snoof (the main component)
  */
 const App = () => {
-  const auth = useAuth(); 
+  const auth = useAuth();
 
   return (
     <AuthContext.Provider value={auth}>
-      <>
-        {auth ? <Snoof /> : <Login />}
-      </>
+      <>{auth ? <Snoof /> : <Login />}</>
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 export default App;
