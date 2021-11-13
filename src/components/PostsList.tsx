@@ -2,27 +2,17 @@ import { FunctionComponent } from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { formatDistance, fromUnixTime } from 'date-fns';
 import RedditLogo from './RedditLogo';
-
-export interface Post {
-  data: {
-    author: string;
-    created_utc: number;
-    num_comments: number;
-    score: number;
-    subreddit: string;
-    thumbnail?: string;
-    title: string;
-  };
-}
+import { Post } from '../api/reddit';
 
 interface PostsListProps {
   posts: Post[];
+  onSelect: (post: Post) => void;
 }
 
-const PostsList: FunctionComponent<PostsListProps> = ({ posts }) => (
+const PostsList: FunctionComponent<PostsListProps> = ({ posts, onSelect }) => (
   <ListGroup>
-    {posts.map(
-      ({
+    {posts.map((post) => {
+      const {
         data: {
           title,
           subreddit,
@@ -32,8 +22,15 @@ const PostsList: FunctionComponent<PostsListProps> = ({ posts }) => (
           created_utc: createdAt,
           thumbnail,
         },
-      }) => (
-        <ListGroupItem tag="button" action className="mb-3 rounded border">
+      } = post;
+
+      return (
+        <ListGroupItem
+          tag="button"
+          action
+          className="mb-3 rounded border"
+          onClick={() => onSelect(post)}
+        >
           <RedditLogo width={16} height={16} className="me-2" />
           <small className="fw-bold">r/{subreddit}</small>
           <small className="text-muted">
@@ -59,8 +56,8 @@ const PostsList: FunctionComponent<PostsListProps> = ({ posts }) => (
             </span>
           </div>
         </ListGroupItem>
-      )
-    )}
+      );
+    })}
   </ListGroup>
 );
 
