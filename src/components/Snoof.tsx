@@ -1,20 +1,26 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Navbar, NavbarBrand } from 'reactstrap';
-import { getTop } from '../api/reddit';
+import { AuthContext } from '../hooks/useAuth';
+import { getTop, Post } from '../api/reddit';
 import RedditLogo from '../components/RedditLogo';
 import RedditText from '../components/RedditTextLogo';
 import PostsList from '../components/PostsList';
 import PostDetails from '../components/PostDetails';
 import PostPlaceholder from '../components/PostPlaceholder';
-import { Post } from '../api/reddit';
 
 const Snoof = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [openPost, setOpenPost] = useState<Post | undefined>();
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
-    setPosts(getTop());
+    if (auth?.access_token) {
+      getTop({ token: auth?.access_token }).then((data) => {
+        console.log(data);
+        setPosts(data);
+      });
+    }
   }, []);
 
   return (

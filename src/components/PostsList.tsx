@@ -3,6 +3,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import { formatDistance, fromUnixTime } from 'date-fns';
 import RedditLogo from './RedditLogo';
 import { Post } from '../api/reddit';
+import { isValidUrl } from '../util';
 
 interface PostsListProps {
   posts: Post[];
@@ -20,6 +21,7 @@ const PostsList: FunctionComponent<PostsListProps> = ({ posts, onSelect }) => (
           score,
           num_comments: numComments,
           created_utc: createdAt,
+          preview,
           thumbnail,
           name,
         },
@@ -44,9 +46,12 @@ const PostsList: FunctionComponent<PostsListProps> = ({ posts, onSelect }) => (
             )}`}
           </small>
           <div className="my-2">{title}</div>
-          {thumbnail && (
+          {thumbnail && isValidUrl(thumbnail) && (
             <img className="mb-2 rounded mx-auto d-block" src={thumbnail} />
           )}
+          {/* {preview?.enabled && (
+            <img className="mb-2 rounded mx-auto d-block img-fluid" src={encodeURI(preview.images[0].source.url)} />
+          )} */}
           <div className="d-flex">
             <small className="text-muted">
               <i className="far fa-comment-alt me-1" />
