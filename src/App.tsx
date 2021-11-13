@@ -1,21 +1,17 @@
 import { useState, useEffect } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  NavbarBrand,
-  Card,
-  CardBody,
-} from 'reactstrap';
+import { Container, Row, Col, Navbar, NavbarBrand } from 'reactstrap';
 import { getTop } from './api/reddit';
 import './App.css';
 import RedditLogo from './components/RedditLogo';
 import RedditText from './components/RedditTextLogo';
-import PostsList, { Post } from './components/PostsList';
+import PostsList from './components/PostsList';
+import PostDetails from './components/PostDetails';
+import PostPlaceholder from './components/PostPlaceholder';
+import { Post } from './api/reddit';
 
 function App() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [openPost, setOpenPost] = useState<Post | undefined>();
 
   useEffect(() => {
     setPosts(getTop());
@@ -32,12 +28,10 @@ function App() {
       <Container className="py-3 bg-light" fluid>
         <Row>
           <Col xs={12} md={5}>
-            <PostsList posts={posts} />
+            <PostsList posts={posts} onSelect={setOpenPost} />
           </Col>
           <Col md={7} className="post-details d-none d-md-block">
-            <Card style={{ height: window.innerHeight - 90 }}>
-              <CardBody>henlo! i am placholdr :)</CardBody>
-            </Card>
+            {openPost ? <PostDetails post={openPost} /> : <PostPlaceholder />}
           </Col>
         </Row>
       </Container>
