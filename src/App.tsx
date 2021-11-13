@@ -1,42 +1,21 @@
-import { useState, useEffect } from 'react';
-import { Container, Row, Col, Navbar, NavbarBrand } from 'reactstrap';
-import { getTop } from './api/reddit';
+import Login from './components/Login';
+import Snoof from './components/Snoof';
+import useAuth, { AuthContext } from './hooks/useAuth';
 import './App.css';
-import RedditLogo from './components/RedditLogo';
-import RedditText from './components/RedditTextLogo';
-import PostsList from './components/PostsList';
-import PostDetails from './components/PostDetails';
-import PostPlaceholder from './components/PostPlaceholder';
-import { Post } from './api/reddit';
 
-function App() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [openPost, setOpenPost] = useState<Post | undefined>();
-
-  useEffect(() => {
-    setPosts(getTop());
-  }, []);
+/**
+ * Outer component for providing auth context, and whether to show Login or PostLogin views.
+ */
+const App = () => {
+  const auth = useAuth(); 
 
   return (
-    <>
-      <Navbar color="white" fixed="top" className="border-bottom">
-        <NavbarBrand>
-          <RedditLogo className="me-2" />
-          <RedditText />
-        </NavbarBrand>
-      </Navbar>
-      <Container className="py-3 bg-light" fluid>
-        <Row>
-          <Col xs={12} md={5}>
-            <PostsList posts={posts} onSelect={setOpenPost} />
-          </Col>
-          <Col md={7} className="post-details d-none d-md-block">
-            {openPost ? <PostDetails post={openPost} /> : <PostPlaceholder />}
-          </Col>
-        </Row>
-      </Container>
-    </>
-  );
+    <AuthContext.Provider value={auth}>
+      <>
+        {auth ? <Snoof /> : <Login />}
+      </>
+    </AuthContext.Provider>
+  )
 }
 
 export default App;

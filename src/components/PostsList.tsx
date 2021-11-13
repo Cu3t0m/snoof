@@ -21,11 +21,13 @@ const PostsList: FunctionComponent<PostsListProps> = ({ posts, onSelect }) => (
           num_comments: numComments,
           created_utc: createdAt,
           thumbnail,
+          name,
         },
       } = post;
 
       return (
         <ListGroupItem
+          key={name}
           tag="button"
           action
           className="mb-3 rounded border"
