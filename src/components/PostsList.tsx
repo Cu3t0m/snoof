@@ -10,6 +10,7 @@ export interface Post {
     num_comments: number;
     score: number;
     subreddit: string;
+    thumbnail?: string;
     title: string;
   };
 }
@@ -29,6 +30,7 @@ const PostsList: FunctionComponent<PostsListProps> = ({ posts }) => (
           score,
           num_comments: numComments,
           created_utc: createdAt,
+          thumbnail,
         },
       }) => (
         <ListGroupItem tag="button" action className="mb-3 rounded border">
@@ -43,6 +45,9 @@ const PostsList: FunctionComponent<PostsListProps> = ({ posts }) => (
             )}`}
           </small>
           <div className="my-2">{title}</div>
+          {thumbnail && (
+            <img className="mb-2 rounded mx-auto d-block" src={thumbnail} />
+          )}
           <div className="d-flex">
             <small className="text-muted">
               <i className="far fa-comment-alt me-1" />
