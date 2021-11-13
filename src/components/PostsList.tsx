@@ -8,12 +8,14 @@ interface PostsListProps {
   posts: Post[];
   active?: Post;
   onSelect: (post: Post) => void;
+  isUnread: (post: Post) => boolean;
 }
 
 const PostsList: FunctionComponent<PostsListProps> = ({
   posts,
   active: activePost,
   onSelect,
+  isUnread,
 }) => (
   <ListGroup>
     {posts.map((post) => {
@@ -32,7 +34,7 @@ const PostsList: FunctionComponent<PostsListProps> = ({
           className="mb-3 rounded border"
           onClick={() => onSelect(post)}
         >
-          <PostHeader active={active} post={post} />
+          <PostHeader unread={isUnread(post)} active={active} post={post} />
           {thumbnail && isValidUrl(thumbnail) && (
             <img className="mb-2 rounded mx-auto d-block" src={thumbnail} />
           )}
