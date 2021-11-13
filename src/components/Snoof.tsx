@@ -7,7 +7,11 @@ import {
   NavbarBrand,
   Button,
   ButtonGroup,
+  Modal,
+  ModalBody,
+  ModalHeader
 } from 'reactstrap';
+import { useMediaQuery } from '@react-hook/media-query';
 import { Post } from '../api/reddit';
 import RedditLogo from '../components/RedditLogo';
 import RedditText from '../components/RedditTextLogo';
@@ -23,6 +27,7 @@ const Snoof = () => {
     useTopPosts();
   const { unread: isUnread, markAsRead } = useUnread();
   const [openPost, setOpenPost] = useState<Post | undefined>();
+  const isSmallScreen = useMediaQuery('(max-width: 768px)');
 
   useEffect(fetchPosts, []);
 
@@ -69,6 +74,14 @@ const Snoof = () => {
           <Col md={7} className="post-details d-none d-md-block">
             {openPost ? <PostDetails post={openPost} /> : <PostPlaceholder />}
           </Col>
+          { openPost &&
+            <Modal fullscreen isOpen={isSmallScreen}>
+              <ModalHeader toggle={() => setOpenPost(undefined)} />
+              <ModalBody>
+                <PostDetails post={openPost} className="border-0" />
+              </ModalBody>
+            </Modal>
+          }
         </Row>
       </Container>
     </>
