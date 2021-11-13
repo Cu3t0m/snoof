@@ -37,6 +37,16 @@ interface PreviewImg {
     width: number;
   };
 }
+
+interface MediaInfo {
+  id: string;
+  s: {
+    x: number;
+    y: number;
+    u: string; // image url for gallery photos
+  };
+}
+
 export interface Post {
   kind: string;
   data: {
@@ -65,7 +75,9 @@ export interface Post {
         hls_url: string;
       };
     };
-    media_metadata?: any; //todo
+    media_metadata?: {
+      [key: string]: MediaInfo;
+    };
     post_hint: 'image' | 'self' | 'hosted:video' | 'rich:video' | 'link';
     url_overridden_by_dest: string;
   };
