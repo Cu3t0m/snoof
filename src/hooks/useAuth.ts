@@ -3,14 +3,19 @@ import { useLocalStorage } from 'react-use';
 import { Auth, authTokenFromCode } from '../api/reddit';
 
 interface AuthContextInterface {
-  data?: Auth,
+  data?: Auth;
   clearAuth: () => void;
 }
-export const AuthContext = createContext<AuthContextInterface | undefined>(undefined);
+export const AuthContext = createContext<AuthContextInterface | undefined>(
+  undefined
+);
 
 function useAuth() {
   const [code, setCode] = useState<string>();
-  const [auth, setAuth] = useLocalStorage<Auth>('snoof-auth', undefined);
+  const [auth, setAuth, clearAuth] = useLocalStorage<Auth>(
+    'snoof-auth',
+    undefined
+  );
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -30,7 +35,7 @@ function useAuth() {
 
   return {
     data: auth,
-    clearAuth: () => setAuth(undefined),
+    clearAuth,
   };
 }
 
