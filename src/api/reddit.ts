@@ -1,5 +1,3 @@
-import sample from './sample-data';
-
 const unauthenticatedBaseUrl = 'https://www.reddit.com/';
 const authenticatedBaseUrl = 'https://oauth.reddit.com/';
 
