@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { Card, CardBody } from 'reactstrap';
 
-const PostDetails: FunctionComponent = () => {
+const PostDetailsPlaceholder: FunctionComponent = () => {
   return (
     <Card style={{ height: window.innerHeight - 90 }}>
       <CardBody>
@@ -16,4 +16,4 @@ const PostDetails: FunctionComponent = () => {
   );
 };
 
-export default PostDetails;
+export default PostDetailsPlaceholder;
