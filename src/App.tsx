@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={auth}>
-      <>{auth ? <Snoof /> : <Login />}</>
+      <>{auth.data ? <Snoof /> : <Login />}</>
     </AuthContext.Provider>
   );
 };

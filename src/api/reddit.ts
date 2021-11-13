@@ -88,7 +88,10 @@ export const getTop = ({
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  })
-    .then((res) => res.json())
-    .then((r) => r.data.children);
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    throw(res);
+  }).then((r) => r.data.children);
 };
