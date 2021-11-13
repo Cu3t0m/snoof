@@ -27,7 +27,11 @@ const PostHeader: FunctionComponent<PostHeaderProps> = ({
           addSuffix: true,
         })}`}
       </small>
-      {unread && <small className="p-0 ms-2 text-primary"><i className="fas fa-circle" /></small>}
+      {unread && (
+        <small className="p-0 ms-2 text-primary">
+          <i className="fas fa-circle" />
+        </small>
+      )}
     </div>
     <div className="my-2">{title}</div>
   </>

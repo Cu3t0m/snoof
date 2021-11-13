@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem, Button } from 'reactstrap';
 import PostHeader from './PostHeader';
 import { Post } from '../api/reddit';
 import { isValidUrl } from '../util';
@@ -8,6 +8,7 @@ interface PostsListProps {
   posts: Post[];
   active?: Post;
   onSelect: (post: Post) => void;
+  onDelete: (post: Post) => void;
   isUnread: (post: Post) => boolean;
 }
 
@@ -15,6 +16,7 @@ const PostsList: FunctionComponent<PostsListProps> = ({
   posts,
   active: activePost,
   onSelect,
+  onDelete,
   isUnread,
 }) => (
   <ListGroup>
@@ -28,17 +30,16 @@ const PostsList: FunctionComponent<PostsListProps> = ({
       return (
         <ListGroupItem
           key={name}
-          tag="button"
           action
           active={active}
-          className="mb-3 rounded border"
+          className="mb-3 p-3 rounded border"
           onClick={() => onSelect(post)}
         >
           <PostHeader unread={isUnread(post)} active={active} post={post} />
           {thumbnail && isValidUrl(thumbnail) && (
             <img className="mb-2 rounded mx-auto d-block" src={thumbnail} />
           )}
-          <div className="d-flex">
+          <div className="d-flex mb-2">
             <small className={`${active ? '' : 'text-muted'}`}>
               <i className="far fa-comment-alt me-1" />
               {`${numComments} `}Comments
@@ -48,6 +49,17 @@ const PostsList: FunctionComponent<PostsListProps> = ({
               <i className="fas fa-sort text-warning" />
             </span>
           </div>
+          <Button
+            color={active ? 'outline-light' : 'outline-danger'}
+            size="sm"
+            className="float-end"
+            onClick={(ev) => {
+              ev.stopPropagation();
+              onDelete(post);
+            }}
+          >
+            Delete
+          </Button>
         </ListGroupItem>
       );
     })}
