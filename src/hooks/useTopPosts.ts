@@ -3,17 +3,25 @@ import { Post, getTop } from '../api/reddit';
 import { AuthContext } from '../hooks/useAuth';
 
 function useTopPosts() {
-  const auth = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchPosts = () => {
+    if (authContext === undefined) return;
+
+    const { data: auth, clearAuth } = authContext;
+
     if (auth?.access_token) {
       setLoading(true);
       getTop({ token: auth?.access_token }).then((data) => {
-        console.log(data);
         setPosts(data);
         setLoading(false);
+      }).catch((e) => {
+        if (e.status === 401) {
+          clearAuth();
+        }
+        throw e;
       });
     }
   };

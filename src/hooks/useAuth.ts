@@ -2,7 +2,11 @@ import { useEffect, useState, createContext } from 'react';
 import { useLocalStorage } from 'react-use';
 import { Auth, authTokenFromCode } from '../api/reddit';
 
-export const AuthContext = createContext<Auth | undefined>(undefined);
+interface AuthContextInterface {
+  data?: Auth,
+  clearAuth: () => void;
+}
+export const AuthContext = createContext<AuthContextInterface | undefined>(undefined);
 
 function useAuth() {
   const [code, setCode] = useState<string>();
@@ -24,20 +28,10 @@ function useAuth() {
     }
   }, [code]);
 
-  // Remove auth when expired
-  useEffect(() => {
-    let timeout: number | undefined;
-
-    if (auth) {
-      timeout = setTimeout(() => {
-        setAuth(undefined);
-      }, auth.expires_in * 1000);
-    }
-
-    return () => clearInterval(timeout);
-  }, [auth]);
-
-  return auth;
+  return {
+    data: auth,
+    clearAuth: () => setAuth(undefined),
+  };
 }
 
 export default useAuth;
