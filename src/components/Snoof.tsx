@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Navbar, NavbarBrand } from 'reactstrap';
 import { AuthContext } from '../hooks/useAuth';
@@ -6,7 +5,7 @@ import { getTop, Post } from '../api/reddit';
 import RedditLogo from '../components/RedditLogo';
 import RedditText from '../components/RedditTextLogo';
 import PostsList from '../components/PostsList';
-import PostDetails from '../components/PostDetails';
+import PostDetails from './PostDetails';
 import PostPlaceholder from '../components/PostPlaceholder';
 
 const Snoof = () => {
@@ -34,7 +33,7 @@ const Snoof = () => {
       <Container className="py-3 bg-light" fluid>
         <Row>
           <Col xs={12} md={5}>
-            <PostsList posts={posts} onSelect={setOpenPost} />
+            <PostsList posts={posts} onSelect={setOpenPost} active={openPost} />
           </Col>
           <Col md={7} className="post-details d-none d-md-block">
             {openPost ? <PostDetails post={openPost} /> : <PostPlaceholder />}
@@ -43,6 +42,6 @@ const Snoof = () => {
       </Container>
     </>
   );
-}
+};
 
 export default Snoof;

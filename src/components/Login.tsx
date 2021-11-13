@@ -3,10 +3,16 @@ import { Button } from 'reactstrap';
 
 const Login = () => {
   const loginUrl = useMemo(() => {
-    return 'https://www.reddit.com/api/v1/authorize?response_type=code&state=snoof&duration=permanent' +
-      `&client_id=${encodeURIComponent(import.meta.env.VITE_CLIENT_ID as string)}` +
+    return (
+      'https://www.reddit.com/api/v1/authorize?response_type=code&state=snoof&duration=permanent' +
+      `&client_id=${encodeURIComponent(
+        import.meta.env.VITE_CLIENT_ID as string
+      )}` +
       `&scope=${encodeURIComponent('read')}` +
-      `&redirect_uri=${encodeURIComponent(import.meta.env.VITE_REDIRECT_URL as string)}`;
+      `&redirect_uri=${encodeURIComponent(
+        import.meta.env.VITE_REDIRECT_URL as string
+      )}`
+    );
   }, []);
 
   return (
