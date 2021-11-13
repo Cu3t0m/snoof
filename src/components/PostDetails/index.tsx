@@ -4,11 +4,14 @@ import { Post } from '../../api/reddit';
 import PostHeader from '../PostHeader';
 import Content from './Content';
 
-interface PostDetailsProps extends React.InputHTMLAttributes<HTMLInputElement>  {
+interface PostDetailsProps extends React.InputHTMLAttributes<HTMLInputElement> {
   post: Post;
 }
 
-const PostDetails: FunctionComponent<PostDetailsProps> = ({ post, ...props }) => {
+const PostDetails: FunctionComponent<PostDetailsProps> = ({
+  post,
+  ...props
+}) => {
   const {
     data: { title },
   } = post;

@@ -9,7 +9,9 @@ import {
   ButtonGroup,
   Modal,
   ModalBody,
-  ModalHeader
+  ModalHeader,
+  ListGroup,
+  ListGroupItem,
 } from 'reactstrap';
 import { useMediaQuery } from '@react-hook/media-query';
 import { Post } from '../api/reddit';
@@ -36,6 +38,11 @@ const Snoof = () => {
     markAsRead(post);
   };
 
+  const onClearPosts = () => {
+    clearPosts();
+    setOpenPost(undefined);
+  };
+
   return (
     <>
       <Navbar color="white" fixed="top" className="border-bottom">
@@ -44,7 +51,7 @@ const Snoof = () => {
           <RedditText />
         </NavbarBrand>
         <ButtonGroup>
-          <Button color="outline-secondary" onClick={clearPosts}>
+          <Button color="outline-secondary" onClick={onClearPosts}>
             Clear Posts
           </Button>
           <Button color="outline-secondary" onClick={fetchPosts}>
@@ -68,20 +75,31 @@ const Snoof = () => {
                 loading={loading}
               />
             ) : (
-              'Nothing to see here...'
+              <ListGroup>
+                <ListGroupItem
+                  tag="button"
+                  color="primary"
+                  key="load-more"
+                  action
+                  className="mb-3 p-3 rounded border text-center"
+                  onClick={fetchPosts}
+                >
+                  Load More
+                </ListGroupItem>
+              </ListGroup>
             )}
           </Col>
           <Col md={7} className="post-details d-none d-md-block">
             {openPost ? <PostDetails post={openPost} /> : <PostPlaceholder />}
           </Col>
-          { openPost &&
+          {openPost && (
             <Modal fullscreen isOpen={isSmallScreen}>
               <ModalHeader toggle={() => setOpenPost(undefined)} />
               <ModalBody>
                 <PostDetails post={openPost} className="border-0" />
               </ModalBody>
             </Modal>
-          }
+          )}
         </Row>
       </Container>
     </>

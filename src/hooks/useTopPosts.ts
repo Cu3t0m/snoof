@@ -48,6 +48,7 @@ function useTopPosts() {
 
   const clearPosts = () => {
     setPosts([]);
+    setAfterId(undefined);
   };
 
   return { posts, fetchPosts, deletePost, clearPosts, loadNextPage, loading };
