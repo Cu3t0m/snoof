@@ -7,11 +7,13 @@ import RedditText from '../components/RedditTextLogo';
 import PostsList from '../components/PostsList';
 import PostDetails from './PostDetails';
 import PostPlaceholder from '../components/PostPlaceholder';
+import useUnread from '../hooks/useUnread';
 
 const Snoof = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [openPost, setOpenPost] = useState<Post | undefined>();
   const auth = useContext(AuthContext);
+  const [isUnread, markAsRead] = useUnread();
 
   useEffect(() => {
     if (auth?.access_token) {
@@ -21,6 +23,11 @@ const Snoof = () => {
       });
     }
   }, []);
+
+  const onOpenPost = (post: Post) => {
+    setOpenPost(post);
+    markAsRead(post);
+  }
 
   return (
     <>
@@ -33,7 +40,7 @@ const Snoof = () => {
       <Container className="py-3 bg-light" fluid>
         <Row>
           <Col xs={12} md={5}>
-            <PostsList posts={posts} onSelect={setOpenPost} active={openPost} />
+            <PostsList isUnread={isUnread} posts={posts} onSelect={onOpenPost} active={openPost} />
           </Col>
           <Col md={7} className="post-details d-none d-md-block">
             {openPost ? <PostDetails post={openPost} /> : <PostPlaceholder />}
