@@ -7,9 +7,11 @@ import { isValidUrl } from '../util';
 interface PostsListProps {
   posts: Post[];
   active?: Post;
+  loading?: boolean;
   onSelect: (post: Post) => void;
   onDelete: (post: Post) => void;
   isUnread: (post: Post) => boolean;
+  onLoadMore: () => void;
 }
 
 const PostsList: FunctionComponent<PostsListProps> = ({
@@ -17,7 +19,9 @@ const PostsList: FunctionComponent<PostsListProps> = ({
   active: activePost,
   onSelect,
   onDelete,
+  onLoadMore,
   isUnread,
+  loading,
 }) => (
   <ListGroup>
     {posts.map((post) => {
@@ -63,6 +67,16 @@ const PostsList: FunctionComponent<PostsListProps> = ({
         </ListGroupItem>
       );
     })}
+    <ListGroupItem
+      tag="button"
+      color="primary"
+      key="load-more"
+      action
+      className="mb-3 p-3 rounded border text-center"
+      onClick={onLoadMore}
+    >
+      Load More {loading && <i className="fas fa-spinner ms-2 fa-spin" />}
+    </ListGroupItem>
   </ListGroup>
 );
 

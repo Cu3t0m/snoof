@@ -19,7 +19,8 @@ import useUnread from '../hooks/useUnread';
 import useTopPosts from '../hooks/useTopPosts';
 
 const Snoof = () => {
-  const { posts, fetchPosts, deletePost, clearPosts, loading } = useTopPosts();
+  const { posts, fetchPosts, deletePost, clearPosts, loadNextPage, loading } =
+    useTopPosts();
   const { unread: isUnread, markAsRead } = useUnread();
   const [openPost, setOpenPost] = useState<Post | undefined>();
 
@@ -49,16 +50,20 @@ const Snoof = () => {
       <Container className="py-3 bg-light" fluid>
         <Row>
           <Col xs={12} md={5}>
-            {loading ? (
+            {loading && posts.length === 0 ? (
               <PostsLoading />
-            ) : (
+            ) : posts.length > 0 ? (
               <PostsList
                 isUnread={isUnread}
                 posts={posts}
                 onSelect={onOpenPost}
                 onDelete={deletePost}
+                onLoadMore={loadNextPage}
                 active={openPost}
+                loading={loading}
               />
+            ) : (
+              'Nothing to see here...'
             )}
           </Col>
           <Col md={7} className="post-details d-none d-md-block">

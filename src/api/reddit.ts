@@ -76,22 +76,38 @@ export interface Post {
 interface GetTopParams {
   token: string;
   limit?: number;
+  after?: string;
+}
+
+interface GetTopResp {
+  posts: Post[];
+  after: string;
+  dist: number;
 }
 
 export const getTop = ({
   limit = 50,
+  after,
   token,
-}: GetTopParams): Promise<Post[]> => {
-  const url = `${authenticatedBaseUrl}r/all/top?limit=${limit}&raw_json=1`;
+}: GetTopParams): Promise<GetTopResp> => {
+  const url = `${authenticatedBaseUrl}r/all/top?limit=${limit}&raw_json=1&after=${after}`;
 
   return fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    throw(res);
-  }).then((r) => r.data.children);
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      throw res;
+    })
+    .then(({ data }) => {
+      return {
+        posts: data.children,
+        after: data.after,
+        dist: data.dist,
+      };
+    });
 };
