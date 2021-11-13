@@ -1,6 +1,7 @@
 import sample from './sample-data';
 
-const baseUrl = 'https://www.reddit.com/api/v1';
+const unauthenticatedBaseUrl = 'https://www.reddit.com/';
+const authenticatedBaseUrl = 'https://oauth.reddit.com/';
 
 export interface Auth {
   access_token: string,
@@ -11,7 +12,7 @@ export interface Auth {
 }
 
 export const authTokenFromCode = (code: string): Promise<Auth> => {
-  const url = `${baseUrl}/access_token?grant_type=authorization_code` +
+  const url = `${unauthenticatedBaseUrl}api/v1/access_token?grant_type=authorization_code` +
     `&code=${encodeURIComponent(code)}` +
     `&redirect_uri=${encodeURIComponent(import.meta.env.VITE_REDIRECT_URL as string)}`;
 
@@ -20,6 +21,14 @@ export const authTokenFromCode = (code: string): Promise<Auth> => {
   }}).then(res => res.json());
 };
 
+interface PreviewImg {
+  id: string;
+  source: {
+    url: string;
+    height: number;
+    width: number;
+  }
+}
 export interface Post {
   kind: string;
   data: {
@@ -29,11 +38,25 @@ export interface Post {
     num_comments: number;
     score: number;
     subreddit: string;
+    preview?: {
+      enabled: boolean;
+      images: PreviewImg[];
+    };
     thumbnail?: string;
     title: string;
   };
 }
 
-export const getTop = (): Post[] => {
-  return sample.data.children;
+interface GetTopParams {
+  token: string;
+  limit?: number;
+}
+
+export const getTop = ({ limit = 50, token }: GetTopParams): Promise<Post[]> => {
+  const url = `${authenticatedBaseUrl}r/all/top?limit=${limit}&raw_json=1`;
+
+  return fetch(url, { headers: {
+    'Authorization': `Bearer ${token}`
+  }}).then(res => res.json())
+     .then(r => r.data.children);
 };
