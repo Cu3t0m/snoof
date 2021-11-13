@@ -6,13 +6,13 @@ function useUnread() {
 
   const unread = (post: Post) => {
     return !read?.includes(post.data.name);
-  }
+  };
 
   const markAsRead = (post: Post) => {
     setRead([...(read || []), post.data.name]);
-  }
+  };
 
-  return [unread, markAsRead];
+  return { unread, markAsRead };
 }
 
 export default useUnread;
