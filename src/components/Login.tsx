@@ -6,11 +6,11 @@ const Login = () => {
     return (
       'https://www.reddit.com/api/v1/authorize?response_type=code&state=snoof&duration=permanent' +
       `&client_id=${encodeURIComponent(
-        import.meta.env.VITE_CLIENT_ID as string
+        'dWRUuIopxj6vVknOqBpUvg'
       )}` +
       `&scope=${encodeURIComponent('read')}` +
       `&redirect_uri=${encodeURIComponent(
-        import.meta.env.VITE_REDIRECT_URL as string
+        'https://phwebi.github.io/snoof/'
       )}`
     );
   }, []);

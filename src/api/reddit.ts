@@ -14,15 +14,14 @@ export const authTokenFromCode = (code: string): Promise<Auth> => {
     `${unauthenticatedBaseUrl}api/v1/access_token?grant_type=authorization_code` +
     `&code=${encodeURIComponent(code)}` +
     `&redirect_uri=${encodeURIComponent(
-      import.meta.env.VITE_REDIRECT_URL as string
+      'https://phwebi.github.io/snoof/'
     )}`;
 
   return fetch(url, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${btoa(
-        `${import.meta.env.VITE_CLIENT_ID as string}:${
-          import.meta.env.VITE_CLIENT_SECRET as string
+        `${'dWRUuIopxj6vVknOqBpUvg'}:${'aZVdSJgcPyK34XXsdnv4UnQzq-FChA'
         }`
       )}`,
     },
