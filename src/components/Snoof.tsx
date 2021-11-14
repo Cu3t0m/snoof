@@ -54,7 +54,7 @@ const Snoof = () => {
           <Button color="outline-secondary" onClick={onClearPosts}>
             Clear Posts
           </Button>
-          <Button color="outline-secondary" onClick={fetchPosts}>
+          <Button color="outline-secondary" onClick={fetchPosts} data-testid="reload-posts-btn">
             <i className="fas fa-redo-alt" />
           </Button>
         </ButtonGroup>

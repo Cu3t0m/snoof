@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
 const PostsLoading: FunctionComponent = () => (
-  <ListGroup>
+  <ListGroup data-testid="posts-loading-placeholder">
     {Array.from({ length: 10 }, () => Math.random()).map((k) => {
       return (
         <ListGroupItem key={k} className="mb-3 p-3 rounded border">

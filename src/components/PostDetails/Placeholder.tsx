@@ -3,7 +3,7 @@ import { Card, CardBody } from 'reactstrap';
 
 const PostDetailsPlaceholder: FunctionComponent = () => {
   return (
-    <Card style={{ height: window.innerHeight - 90 }}>
+    <Card style={{ height: window.innerHeight - 90 }} data-testid="post-placeholder">
       <CardBody>
         <div className="d-flex align-items-center h-100">
           <div className="d-block mx-auto">
