@@ -28,7 +28,7 @@ const PostHeader: FunctionComponent<PostHeaderProps> = ({
         })}`}
       </small>
       {unread && (
-        <small className="p-0 ms-2 text-primary">
+        <small data-testid="unread-indicator" className="p-0 ms-2 text-primary">
           <i className="fas fa-circle" />
         </small>
       )}

@@ -38,6 +38,7 @@ const PostsList: FunctionComponent<PostsListProps> = ({
           active={active}
           className="mb-3 p-3 rounded border"
           onClick={() => onSelect(post)}
+          data-testid="post-list-item"
         >
           <PostHeader unread={isUnread(post)} active={active} post={post} />
           {thumbnail && isValidUrl(thumbnail) && (
@@ -74,6 +75,7 @@ const PostsList: FunctionComponent<PostsListProps> = ({
       action
       className="mb-3 p-3 rounded border text-center"
       onClick={onLoadMore}
+      data-testid={loading ? 'load-more-btn-loading' : 'load-more-btn'}
     >
       Load More {loading && <i className="fas fa-spinner ms-2 fa-spin" />}
     </ListGroupItem>
