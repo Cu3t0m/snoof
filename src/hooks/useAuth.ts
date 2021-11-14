@@ -28,7 +28,7 @@ function useAuth() {
     if (code) {
       authTokenFromCode(code).then((a) => {
         setAuth(a);
-        window.history.pushState('', '', '/'); // clear auth code from browser url
+        window.history.pushState('', '', window.location.pathname); // clear auth code from browser url
       });
     }
   }, [code]);
